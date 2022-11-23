@@ -144,7 +144,7 @@ class StreamingClient(tweepy.StreamingClient):
 
     def on_exception(self, exception):
         logging.warning(exception)
-        print('On Exception')
+        print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] On Exception")
     def on_errors(self, status_code):
         print("Encountered streaming error (", status_code, ")")
         # sys.exit()
@@ -153,7 +153,7 @@ if __name__ == '__main__':
 
     user_filters = "-is:retweet has:geo (from:NWSNHC OR from:NHC_Atlantic OR from:NWSHouston OR from:NWSSanAntonio OR from:USGS_TexasRain OR from:USGS_TexasFlood OR from:JeffLindner1)"
     streaming_client = StreamingClient(BEARER_TOKEN)
-    streaming_client.add_rules(tweepy.StreamRule(user_filters))
+    # streaming_client.add_rules(tweepy.StreamRule(user_filters))
 
     tweet_columns = [
         'possibly_sensitive', 'text', 'source', 'id', 'created_at', 'lang', 'reply_settings', 'author_id', 'edit_history_tweet_ids', 
@@ -179,4 +179,5 @@ if __name__ == '__main__':
             write = csv.writer(f)
             write.writerows([user_columns])
 
-    streaming_client.sample(expansions='author_id', tweet_fields='created_at,public_metrics,entities,lang,possibly_sensitive,reply_settings,source,in_reply_to_user_id,geo', user_fields='created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld')
+    print("Starting streaming")
+    streaming_client.filter(expansions='author_id', tweet_fields='created_at,public_metrics,entities,lang,possibly_sensitive,reply_settings,source,in_reply_to_user_id,geo', user_fields='created_at,description,entities,id,location,name,pinned_tweet_id,profile_image_url,protected,public_metrics,url,username,verified,withheld')
