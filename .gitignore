@@ -1,5 +1,7 @@
 main.ipynb
 0.csv
+archive_search.py
+data/
 *.env
 # Byte-compiled / optimized / DLL files
 __pycache__/
